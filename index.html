@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Roulette</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Travel Roulette</h1>
+        <div id="continentSelect">
+            <label><input type="checkbox" value="asia"> Asia</label>
+            <label><input type="checkbox" value="northAmerica"> North America</label>
+            <label><input type="checkbox" value="southAmerica"> South America</label>
+            <label><input type="checkbox" value="europe"> Europe</label>
+            <label><input type="checkbox" value="africa"> Africa</label>
+            <label><input type="checkbox" value="all"> All</label>
+        </div>
+        <div id="countryDisplay">Select one or more continents and press the button to start</div>
+        <button id="spinButton" disabled>Start</button>
+        <p id="result"></p>
+    </div>
+    <script src="countries.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
