@@ -1,4 +1,5 @@
 body {
+    font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
@@ -10,15 +11,31 @@ body {
     padding: 20px;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px; /* Rounded corners */
 }
 
 #continentCheckboxes {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 5px; /* Reduce the gap between the checkboxes */
     margin-left: 20px; /* Adjust this value to move it slightly right */
 }
 
+#resultContainer {
+    height: 300px; /* Increase the height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    color: white; /* Ensure text is visible against the background */
+    text-shadow: 1px 1px 2px black; /* Add text shadow for better readability */
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px; /* Add some space above the result container */
+}
+
+/* Media Queries for better mobile alignment */
 @media (max-width: 600px) {
     #continentCheckboxes {
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -35,5 +52,9 @@ body {
     
     h1 {
         font-size: 1.5em;
+    }
+    
+    #resultContainer {
+        height: 300px; /* Adjust height for mobile screens */
     }
 }
