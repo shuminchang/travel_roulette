@@ -1,28 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Roulette</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Travel Roulette</h1>
-        <div id="continentSelect">
-            <label><input type="checkbox" value="asia"> Asia</label>
-            <label><input type="checkbox" value="northAmerica"> North America</label>
-            <label><input type="checkbox" value="southAmerica"> South America</label>
-            <label><input type="checkbox" value="europe"> Europe</label>
-            <label><input type="checkbox" value="africa"> Africa</label>
-            <label><input type="checkbox" value="all"> All</label>
+    <div class="container mt-5 rounded">
+        <h1 class="text-center mb-4">Travel Roulette</h1>
+        <div id="continentSelect" class="mb-4">
+            <div id="allCheckboxContainer" class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" value="all" role="switch" id="allCheckbox">
+                <label class="form-check-label" for="allCheckbox">全球</label>
+            </div>
+            <div id="continentCheckboxes" class="grid-layout">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="asia" id="asia">
+                    <label class="form-check-label" for="asia">亞洲</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="northAmerica" id="northAmerica">
+                    <label class="form-check-label" for="northAmerica">北美洲</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="southAmerica" id="southAmerica">
+                    <label class="form-check-label" for="southAmerica">南美洲</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="europe" id="europe">
+                    <label class="form-check-label" for="europe">歐洲</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="africa" id="africa">
+                    <label class="form-check-label" for="africa">非洲</label>
+                </div>
+            </div>
         </div>
-        <div id="countryDisplay">Select one or more continents and press the button to start</div>
-        <button id="spinButton" disabled>Start</button>
-        <p id="result"></p>
+        <div id="countryDisplay" class="alert alert-primary" role="alert">選擇一個或多個大洲並按下按鈕開始</div>
+        <button id="spinButton" class="btn btn-primary" disabled>開始</button>
+        <p id="result" class="mt-3"></p>
         <div class="gcse-search" data-autosearchonload="true"></div>
     </div>
     <script async src="https://cse.google.com/cse.js?cx=7028e0a4764d14a13"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="countries.js"></script>
     <script src="script.js"></script>
 </body>
