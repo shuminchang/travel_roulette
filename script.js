@@ -62,7 +62,7 @@ function updateSelectedCountries() {
     });
 
     if (selectedCountries.length > 0) {
-        countryDisplay.textContent = '按下按鈕開始旋轉';
+        countryDisplay.textContent = '按下按鈕開始';
         spinButton.disabled = false;
     } else {
         countryDisplay.textContent = '選擇一個或多個大洲並按下按鈕開始';
@@ -87,7 +87,7 @@ checkboxes.forEach(checkbox => {
 spinButton.addEventListener('click', () => {
     if (!spinning) {
         spinning = true;
-        spinButton.textContent = 'Stop';
+        spinButton.textContent = '停止';
         interval = setInterval(() => {
             const randomIndex = Math.floor(Math.random() * selectedCountries.length);
             const selectedCountryChinese = selectedCountries[randomIndex];
@@ -96,16 +96,23 @@ spinButton.addEventListener('click', () => {
     } else {
         spinning = false;
         clearInterval(interval);
-        const selectedCountryChinese = countryDisplay.textContent;
-        const selectedCountryEnglish = getKeyByValue(countryMapping, selectedCountryChinese);
+        let selectedCountryChinese = countryDisplay.textContent;
+        let selectedCountryEnglish = getKeyByValue(countryMapping, selectedCountryChinese);
 
-        spinButton.textContent = 'Start';
+        const magicNum = getRandom(10);
+        if (magicNum === 1) {
+            countryDisplay.textContent = '南極';
+            selectedCountryChinese = countryDisplay.textContent;
+            selectedCountryEnglish = 'Antarctica';
+        }
+
+        spinButton.textContent = '開始';
 
         setTimeout(() => triggerSearch(`${selectedCountryChinese} 景點`), 1000);
         fetchCountryImage(selectedCountryEnglish, selectedCountryChinese); // Fetch and set the background image for result container
 
         // Fetch and display a random fact about the country
-        fetchCountryFactsInTraditionalChinese(selectedCountryEnglish);
+        fetchCountryFactsInTraditionalChinese(selectedCountryChinese, selectedCountryEnglish);
     }
 });
 
@@ -131,7 +138,8 @@ function fetchCountryImage(countryEng, countryChi) {
         .then(data => {
             const landscapeImages = data.results.filter(img => img.width > img.height);
             if (landscapeImages.length > 0) {
-                const imageUrl = landscapeImages[0].urls.regular; // Use the first image
+                const randIdx = getRandom(landscapeImages.length);
+                const imageUrl = landscapeImages[randIdx].urls.regular; // Use the first image
                 displayResultContainer(countryChi,imageUrl);
                 // setBackgroundImage(imageUrl);
             }
@@ -214,37 +222,51 @@ window.onload = function () {
     }
 }
 
-// Function to fetch facts from Wikipedia and an image from Unsplash, and display them
-function fetchCountryFactsInTraditionalChinese(country) {
-    const countryFormatted = country.replace(/\s/g, '_');
-    const wikiUrl = `https://zh.wikipedia.org/api/rest_v1/page/summary/${countryFormatted}`;
-    const unsplashUrl = `https://api.unsplash.com/search/photos?query=${countryFormatted}&client_id=${unsplashAccessKey}`;
+function fetchCountryFactsInTraditionalChinese(countryChi, countryEng) {
+    const fetchDetails = (countryName) => {
+        const countryFormatted = countryName.replace(/\s/g, '_');
+        const wikiUrl = `https://zh.wikipedia.org/api/rest_v1/page/summary/${countryFormatted}`;
+        const unsplashUrl = `https://api.unsplash.com/search/photos?query=${countryFormatted}&client_id=${unsplashAccessKey}`;
 
-    // Fetch the fact from Wikipedia
-    fetch(wikiUrl)
-        .then(response => response.json())
-        .then(data => {
-            const factText = data.extract ? data.extract : '無法取得該國家資訊。';
-            // Fetch the image from Unsplash
-            fetch(unsplashUrl)
-                .then(response => response.json())
-                .then(imageData => {
-                    // const imageUrl = imageData.results.length > 0 ? imageData.results[1]?.urls.small || imageData.results[0].urls.small : '';
-                    // Filter images that are horizontal
-                    const landscapeImages = imageData.results.filter(img => img.width > img.height);
-                    const imageUrl = landscapeImages.length > 1 ? landscapeImages[1].urls.small : ''; // Use the second image
-                    displayFactAndImage(factText, imageUrl);
-                })
-                .catch(error => {
-                    console.error('Error fetching image:', error);
-                    displayFactAndImage(factText, '');
-                });
+        // Fetch the fact from Wikipedia
+        return fetch(wikiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const factText = data.extract ? data.extract : '無法取得該國家資訊。';
+                // Fetch the image from Unsplash
+                return fetch(unsplashUrl)
+                    .then(response => response.json())
+                    .then(imageData => {
+                        // Filter images that are horizontal
+                        const landscapeImages = imageData.results.filter(img => img.width > img.height);
+                        const randIdx = getRandom(landscapeImages.length);
+                        const imageUrl = landscapeImages.length > 0 ? landscapeImages[randIdx].urls.small : '';
+                        displayFactAndImage(factText, imageUrl);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching image:', error);
+                        displayFactAndImage(factText, '');
+                    });
+            })
+            .catch(error => {
+                console.error('Error fetching fact:', error);
+                return false; // Indicate failure
+            });
+    };
+
+    // Try fetching with Chinese name first
+    fetchDetails(countryChi)
+        .then(success => {
+            if (success === false) {
+                // If failed, retry with English name
+                return fetchDetails(countryEng);
+            }
         })
         .catch(error => {
-            console.error('Error fetching fact:', error);
-            displayFactAndImage('無法取得該國家資訊。', '');
+            console.error('Error in fallback fetch:', error);
         });
 }
+
 // Function to display the fact and image in a new container below resultContainer
 function displayFactAndImage(fact, imageUrl) {
     const existingFactContainer = document.getElementById('factContainer');
