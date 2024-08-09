@@ -148,3 +148,27 @@ function setBackgroundImage(imageUrl) {
 function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
 }
+
+// GCSE Initialization and Placeholder Modification
+(function () {
+    var cx = '7028e0a4764d14a13'; // Replace with your GCSE ID
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol === 'https:' ? 'https:' : 'http:') + '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+})();
+
+window.onload = function () {
+    var title = "Search Travel Destinations"; // Your custom title
+    var textBox = document.querySelector("#gsc-i-id1");
+    if (textBox) {
+        textBox.placeholder = title;
+        textBox.title = title;
+    }
+    var button = document.querySelector(".gsc-search-button-v2 svg title");
+    if (button) {
+        button.innerHTML = title;
+    }
+}

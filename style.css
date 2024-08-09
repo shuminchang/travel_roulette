@@ -35,6 +35,121 @@ body {
     margin-top: 20px; /* Add some space above the result container */
 }
 
+/* Custom styles for the Google Custom Search */
+.gsc-control-cse {
+    background-color: #CFE2FF !important;
+    border: 0 !important;
+    padding: 6px 8px 6px 10px !important;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+form.gsc-search-box, table.gsc-search-box {
+    margin-bottom: 0 !important;
+}
+
+.gsc-input-box {
+    background: #ffffff !important;
+    border-radius: 25px !important;
+    padding-left: 15px !important;
+}
+
+.gsc-input {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.gsc-search-button {
+    background-color: #007bff !important;
+    color: white !important;
+    border-radius: 25px !important;
+    padding: 6px 10px !important;
+}
+
+.gsc-search-button:hover {
+    background-color: #0056b3 !important;
+}
+
+/* Make search result items rounded */
+.gsc-webResult.gsc-result {
+    border-radius: 15px; /* Rounded corners */
+    overflow: hidden; /* Ensure content inside respects the rounded corners */
+    border: 1px solid #ddd; /* Optional: Add a border to make the rounded corners more visible */
+    margin-bottom: 15px !important; /* Add some space between results */
+    padding: 10px; /* Optional: Add some padding inside each result */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}
+
+/* Optional: Customize the hover effect */
+.gsc-webResult.gsc-result:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increase the shadow on hover */
+}
+
+/* Ensure images or other content inside respect the border-radius */
+.gsc-webResult.gsc-result img {
+    border-radius: 15px;
+}
+
+/* Style for image result items with consistent aspect ratio */
+.gsc-imageResult.gsc-imageResult-popup.gsc-result {
+    border-radius: 15px; /* Rounded corners */
+    overflow: hidden; /* Ensure content inside respects the rounded corners */
+    border: 1px solid #ddd; /* Optional: Add a border to make the rounded corners more visible */
+    margin-bottom: 15px !important; /* Add space between image results */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+    background-color: #fff; /* Background color for image results */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style the image inside the image result div */
+.gsc-imageResult.gsc-imageResult-popup.gsc-result img {
+    border-radius: 15px; /* Same rounded corners as the container */
+    width: 100%; /* Make the image fill the container's width */
+    height: 100%; /* Maintain aspect ratio */
+
+}
+
+
+/* Optional: Customize the hover effect */
+.gsc-imageResult.gsc-imageResult-popup.gsc-result:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increase the shadow on hover */
+}
+
+/* Style the tabs area */
+.gsc-tabsArea {
+    background-color: #f8f9fa; /* Light background color */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px; /* Padding inside the tabs area */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    display: flex;
+    justify-content: center; /* Center the tabs horizontally */
+    gap: 10px; /* Space between the tabs */
+}
+
+/* Style individual tabs */
+.gsc-tabsArea .gsc-tabHeader {
+    background-color: #007bff; /* Tab background color */
+    color: white; /* Tab text color */
+    border-radius: 5px; /* Rounded corners for tabs */
+    min-width: 120px; /* Set a minimum width for each tab */
+    cursor: pointer; /* Pointer cursor to indicate clickable tabs */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for tabs */
+.gsc-tabsArea .gsc-tabHeader:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Active tab styling */
+.gsc-tabsArea .gsc-tabHeader.gsc-tabhActive {
+    background-color: #0056b3; /* Darker color for the active tab */
+    font-weight: bold; /* Bold text for active tab */
+}
+
 /* Media Queries for better mobile alignment */
 @media (max-width: 600px) {
     #continentCheckboxes {
