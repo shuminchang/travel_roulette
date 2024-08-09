@@ -87,7 +87,6 @@ checkboxes.forEach(checkbox => {
 spinButton.addEventListener('click', () => {
     if (!spinning) {
         spinning = true;
-        result.textContent = '';
         spinButton.textContent = 'Stop';
         interval = setInterval(() => {
             const randomIndex = Math.floor(Math.random() * selectedCountries.length);
@@ -100,11 +99,13 @@ spinButton.addEventListener('click', () => {
         const selectedCountryChinese = countryDisplay.textContent;
         const selectedCountryEnglish = getKeyByValue(countryMapping, selectedCountryChinese);
 
-        result.textContent = `你應該去: ${selectedCountryChinese}!`;
         spinButton.textContent = 'Start';
 
         setTimeout(() => triggerSearch(`${selectedCountryChinese} 景點`), 1000);
-        fetchCountryImage(selectedCountryEnglish); // Fetch and set the background image for result container
+        fetchCountryImage(selectedCountryEnglish, selectedCountryChinese); // Fetch and set the background image for result container
+
+        // Fetch and display a random fact about the country
+        fetchCountryFactsInTraditionalChinese(selectedCountryEnglish);
     }
 });
 
@@ -123,19 +124,59 @@ function triggerSearch(query) {
     }
 }
 
-function fetchCountryImage(country) {
-    const url = `https://api.unsplash.com/search/photos?query=${country}&client_id=${unsplashAccessKey}`;
+function fetchCountryImage(countryEng, countryChi) {
+    const url = `https://api.unsplash.com/search/photos?query=${countryEng}&client_id=${unsplashAccessKey}`;
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            if (data.results.length > 0) {
-                const imageUrl = data.results[0].urls.regular;
-                setBackgroundImage(imageUrl);
+            const landscapeImages = data.results.filter(img => img.width > img.height);
+            if (landscapeImages.length > 0) {
+                const imageUrl = landscapeImages[0].urls.regular; // Use the first image
+                displayResultContainer(countryChi,imageUrl);
+                // setBackgroundImage(imageUrl);
             }
         })
         .catch(error => {
             console.error('Error fetching image:', error);
         });
+}
+
+// Function to display the result container with a background image and centered text
+function displayResultContainer(country, imageUrl) {
+    const existingResultContainer = document.getElementById('resultContainer');
+    if (existingResultContainer) {
+        existingResultContainer.remove();
+    }
+
+    const resultContainer = document.createElement('div');
+    resultContainer.id = 'resultContainer';
+    resultContainer.style.position = 'relative';
+    resultContainer.style.display = 'flex';
+    resultContainer.style.justifyContent = 'center';
+    resultContainer.style.alignItems = 'center';
+    resultContainer.style.marginTop = '20px';
+    resultContainer.style.padding = '15px';
+    resultContainer.style.backgroundImage = `url(${imageUrl})`;
+    resultContainer.style.backgroundSize = 'cover';
+    resultContainer.style.backgroundPosition = 'center';
+    resultContainer.style.height = '200px'; // Set a fixed height
+    resultContainer.style.borderRadius = '10px';
+    resultContainer.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+    resultContainer.style.color = 'white'; // Text color for contrast
+    resultContainer.style.textShadow = '2px 2px 4px rgba(0, 0, 0, 0.5)'; // Add text shadow for readability
+
+    // Create a paragraph element for the country name, centered
+    const countryDisplay = document.createElement('p');
+    countryDisplay.textContent = `你應該去: ${country}`;
+    countryDisplay.style.fontWeight = 'bold';
+    countryDisplay.style.fontSize = '24px'; // Larger text size
+    countryDisplay.style.textAlign = 'center';
+
+    resultContainer.appendChild(countryDisplay);
+
+    // Append the result container after the factContainer
+    const parentContainer = spinButton.parentNode;
+    parentContainer.insertBefore(resultContainer, spinButton.nextSibling);
 }
 
 function setBackgroundImage(imageUrl) {
@@ -171,4 +212,91 @@ window.onload = function () {
     if (button) {
         button.innerHTML = title;
     }
+}
+
+// Function to fetch facts from Wikipedia and an image from Unsplash, and display them
+function fetchCountryFactsInTraditionalChinese(country) {
+    const countryFormatted = country.replace(/\s/g, '_');
+    const wikiUrl = `https://zh.wikipedia.org/api/rest_v1/page/summary/${countryFormatted}`;
+    const unsplashUrl = `https://api.unsplash.com/search/photos?query=${countryFormatted}&client_id=${unsplashAccessKey}`;
+
+    // Fetch the fact from Wikipedia
+    fetch(wikiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const factText = data.extract ? data.extract : '無法取得該國家資訊。';
+            // Fetch the image from Unsplash
+            fetch(unsplashUrl)
+                .then(response => response.json())
+                .then(imageData => {
+                    // const imageUrl = imageData.results.length > 0 ? imageData.results[1]?.urls.small || imageData.results[0].urls.small : '';
+                    // Filter images that are horizontal
+                    const landscapeImages = imageData.results.filter(img => img.width > img.height);
+                    const imageUrl = landscapeImages.length > 1 ? landscapeImages[1].urls.small : ''; // Use the second image
+                    displayFactAndImage(factText, imageUrl);
+                })
+                .catch(error => {
+                    console.error('Error fetching image:', error);
+                    displayFactAndImage(factText, '');
+                });
+        })
+        .catch(error => {
+            console.error('Error fetching fact:', error);
+            displayFactAndImage('無法取得該國家資訊。', '');
+        });
+}
+// Function to display the fact and image in a new container below resultContainer
+function displayFactAndImage(fact, imageUrl) {
+    const existingFactContainer = document.getElementById('factContainer');
+    if (existingFactContainer) {
+        existingFactContainer.remove();
+    }
+
+    const factContainer = document.createElement('div');
+    factContainer.id = 'factContainer';
+    factContainer.style.display = 'flex';
+    factContainer.style.justifyContent = 'space-between';
+    factContainer.style.alignItems = 'center';
+    factContainer.style.marginTop = '20px';
+    factContainer.style.padding = '15px';
+    factContainer.style.backgroundColor = '#f8f9fa';
+    factContainer.style.borderRadius = '10px';
+    factContainer.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.1)';
+
+    // Create a div for the fact text, taking up 50% width
+    const factTextDiv = document.createElement('div');
+    factTextDiv.style.width = '50%';
+    factTextDiv.style.paddingRight = '10px';
+
+    const factDisplay = document.createElement('p');
+    factDisplay.textContent = `${fact}`;
+    factDisplay.style.fontStyle = 'italic';
+    factDisplay.style.color = '#6c757d';
+
+    factTextDiv.appendChild(factDisplay);
+
+    // Create a div for the image, taking up 50% width
+    const factImageDiv = document.createElement('div');
+    factImageDiv.style.width = '50%';
+
+    const factImage = document.createElement('img');
+    factImage.src = imageUrl;
+    factImage.alt = 'Country Image';
+    factImage.style.width = '100%'; // Make the image fill the container's width
+    factImage.style.height = 'auto'; // Maintain aspect ratio
+    factImage.style.borderRadius = '10px';
+
+    factImageDiv.appendChild(factImage);
+
+    // Append the text and image divs to the fact container
+    factContainer.appendChild(factTextDiv);
+    if (imageUrl) {
+        factContainer.appendChild(factImageDiv);
+    }
+
+    // const parentContainer = spinButton.parentNode;
+    // parentContainer.insertBefore(factContainer, spinButton.nextSibling);
+    // Append the result container after the factContainer
+    const resultContainer = document.getElementById('resultContainer').parentNode;
+    resultContainer.insertBefore(factContainer, document.getElementById('resultContainer').nextSibling);
 }
