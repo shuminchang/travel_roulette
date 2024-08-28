@@ -256,12 +256,12 @@ function fetchCountryFactsInTraditionalChinese(countryChi, countryEng) {
             });
     };
 
-    // Try fetching with Chinese name first
-    fetchDetails(countryChi)
+    // Try fetching with English name first
+    fetchDetails(countryEng)
         .then(success => {
             if (success === false) {
-                // If failed, retry with English name
-                return fetchDetails(countryEng);
+                // If failed, retry with Chinese name
+                return fetchDetails(countryChi);
             }
         })
         .catch(error => {
