@@ -228,7 +228,7 @@ function fetchCountryFactsInTraditionalChinese(countryChi, countryEng) {
     const fetchDetails = (countryName) => {
         const countryFormatted = countryName.replace(/\s/g, '_');
         const wikiUrl = `https://zh.wikipedia.org/api/rest_v1/page/summary/${countryFormatted}`;
-        const unsplashUrl = `https://api.unsplash.com/search/photos?query=${countryFormatted}&client_id=${unsplashAccessKey}`;
+        const unsplashUrl = `https://api.unsplash.com/search/photos?query=${countryName}&client_id=${unsplashAccessKey}`;
 
         // Fetch the fact from Wikipedia
         return fetch(wikiUrl)
