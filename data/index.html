@@ -12,6 +12,8 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv-z_Ic9BrVeitqbZGC51I5x4Y-x8WZ0g&callback=initMap"></script>
 </head>
 <body>
+    <div id="particles-js"></div> <!-- Particle container -->
+
     <div class="container">
         <h1 class="center-align">Travel Roulette</h1>
         
@@ -51,15 +53,22 @@
         </div>
 
         <div class="row center-align">
-            <button id="startBtn" class="btn waves-effect waves-light">Start</button>
-            <button id="stopBtn" class="btn red waves-effect waves-light" disabled>Stop</button>
+            <button id="startCountryBtn" class="btn waves-effect waves-light">Start</button>
+            <button id="stopCountryBtn" class="btn red waves-effect waves-light" disabled>Stop</button>
         </div>
         
         <div class="row">
             <div id="countryInfo" class="card-panel teal lighten-5">Country: <span id="selectedCountry"></span></div>
+        </div>
+
+        <div class="row center-align">
+            <button id="startCityBtn" class="btn waves-effect waves-light">Start</button>
+            <button id="stopCityBtn" class="btn red waves-effect waves-light" disabled>Stop</button>
+        </div>
+
+        <div class="row">
             <div id="cityInfo" class="card-panel teal lighten-5">City: <span id="selectedCity"></span></div>
         </div>
-        
         
         <div class="row">
             <div class="col s12">
@@ -110,6 +119,7 @@
         <div class="gcse-search" data-autosearchonload="true"></div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="script.js"></script>
     <script async src="https://cse.google.com/cse.js?cx=7028e0a4764d14a13"></script>
 </body>
