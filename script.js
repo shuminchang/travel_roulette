@@ -169,21 +169,26 @@ $(document).ready(function() {
             const targetLat = parseFloat(currentCityData.lat);
             const targetLng = parseFloat(currentCityData.lng);
             
-            // Center the map on the selected city coordinates
-            const cityLocation = { lat: targetLat, lng: targetLng };
-            
-            // Initialize Google Map centered at cityLocation
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: cityLocation,
-                zoom: 10 // Set default zoom level
-            });
-            
-            // Add a marker at the city location
-            new google.maps.Marker({
-                position: cityLocation,
-                map: map,
-                title: currentCityData.city_ascii // Display city name on hover
-            });
+            if (!isNaN(targetLat) && !isNaN(targetLng)) {
+                // Show the map div
+                document.getElementById('map').style.display = 'block';
+
+                // Center the map on the selected city coordinates
+                const cityLocation = { lat: targetLat, lng: targetLng };
+                
+                // Initialize Google Map centered at cityLocation
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: cityLocation,
+                    zoom: 10 // Set default zoom level
+                });
+                
+                // Add a marker at the city location
+                new google.maps.Marker({
+                    position: cityLocation,
+                    map: map,
+                    title: currentCityData.city_ascii // Display city name on hover
+                });
+            }
         }
     }
     
@@ -357,11 +362,48 @@ $(document).ready(function() {
     
             // Display the city map
             displayCityMap();
+
+            // Display Street View
+            displayCityStreetView();
     
             // Automatically fill the search bar with the city name and trigger the search
             setTimeout(() => triggerSearch(`${cityName} ${countryName} Attractions`), 1000);
         }
     }
+
+    function displayCityStreetView() {
+        if (currentCityData) {
+            // Convert lat and lng to numbers in case they are strings
+            const targetLat = parseFloat(currentCityData.lat);
+            const targetLng = parseFloat(currentCityData.lng);
+    
+            if (!isNaN(targetLat) && !isNaN(targetLng)) {
+                // Show the street view div
+                document.getElementById('streetView').style.display = 'block';
+                
+                // Define a position for the Street View
+                const cityLocation = { lat: targetLat, lng: targetLng };
+    
+                // Create a new Street View panorama
+                const panorama = new google.maps.StreetViewPanorama(
+                    document.getElementById('streetView'), {
+                        position: cityLocation,
+                        pov: {
+                            heading: 165,
+                            pitch: 0
+                        },
+                        zoom: 1
+                    }
+                );
+    
+                // Link the panorama to the map
+                map.setStreetView(panorama);
+            } else {
+                console.error("Invalid latitude or longitude for the city.");
+            }
+        }
+    }
+    
     
     function triggerSearch(query) {
         const searchBox = document.querySelector('input.gsc-input');
@@ -375,6 +417,7 @@ $(document).ready(function() {
     }
     
     // Function to search city in GCSE
+
     function searchCityInGCSE(cityName) {
         // Wait for the GCSE search input to be available on the page
         const searchInputInterval = setInterval(function () {
