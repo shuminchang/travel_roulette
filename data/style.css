@@ -27,3 +27,10 @@ button {
 #mapImage, #mapFrame {
     margin-top: 20px;
 }
+
+#continentCheckboxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust the number of columns based on space */
+    gap: 10px; /* Adds space between each checkbox */
+    margin-left: 20px;
+}

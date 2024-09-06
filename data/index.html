@@ -18,42 +18,35 @@
         <!-- Continents Checkboxes -->
         <div class="row">
             <form class="col s12">
-                <p>
+                <div class="switch">
+                    <label>
+                        Select All
+                        <input type="checkbox" value="all" id="selectAll" />
+                        <span class="lever"></span>
+                    </label>
+                </div>
+                <div id="continentCheckboxes" class="grid-layout">
                     <label>
                         <input type="checkbox" name="continents" value="asia" />
                         <span>Asia</span>
                     </label>
-                </p>
-                <p>
                     <label>
                         <input type="checkbox" name="continents" value="africa" />
                         <span>Africa</span>
                     </label>
-                </p>
-                <p>
                     <label>
                         <input type="checkbox" name="continents" value="europe" />
                         <span>Europe</span>
                     </label>
-                </p>
-                <p>
                     <label>
                         <input type="checkbox" name="continents" value="northAmerica" />
                         <span>North America</span>
                     </label>
-                </p>
-                <p>
                     <label>
                         <input type="checkbox" name="continents" value="southAmerica" />
                         <span>South America</span>
                     </label>
-                </p>
-                <p>
-                    <label>
-                        <input type="checkbox" id="selectAll" />
-                        <span>Select All</span>
-                    </label>
-                </p>
+                </div>
             </form>
         </div>
 
@@ -62,7 +55,11 @@
             <button id="stopBtn" class="btn red waves-effect waves-light" disabled>Stop</button>
         </div>
         
-        <div id="cityInfo" class="card-panel teal lighten-5"></div>
+        <div class="row">
+            <div id="countryInfo" class="card-panel teal lighten-5">Country: <span id="selectedCountry"></span></div>
+            <div id="cityInfo" class="card-panel teal lighten-5">City: <span id="selectedCity"></span></div>
+        </div>
+        
         
         <div class="row">
             <div class="col s12">
