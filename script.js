@@ -218,6 +218,9 @@ $(document).ready(function() {
         if (isSwitching) {
             currentCountryData = randomCity;  // Store the data but don't display it yet
             countryInfo.html(`<h2>${randomCity.country}</h2>`);
+
+            // Show the street view div
+            document.getElementById('rollCity').style.display = 'block';
         }
     }
 
