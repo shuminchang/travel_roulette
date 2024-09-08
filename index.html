@@ -86,28 +86,30 @@
         </div>
 
         <!-- Weather Information -->
-        <div class="weather-box card-panel teal lighten-4">
-            <p class="status"></p>
-            <p class="temperature"></p>
-            <p class="description"></p>
-        </div>
-
-        <div class="row weather-details card-panel teal lighten-3">
-            <div class="humidity">
-                <div class="col s6">
-                    <i class="fa-solid fa-water"></i>
-                    <div class="text">
-                        <span></span>
-                        <p>Humidity</p>
+        <div id="weatherInfo" style="display: none;">
+            <div class="weather-box card-panel teal lighten-4">
+                <p class="status"></p>
+                <p class="temperature"></p>
+                <p class="description"></p>
+            </div>
+    
+            <div class="row weather-details card-panel teal lighten-3">
+                <div class="humidity">
+                    <div class="col s6">
+                        <i class="fa-solid fa-water"></i>
+                        <div class="text">
+                            <span></span>
+                            <p>Humidity</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="wind">
-                <div class="col s6">
-                    <i class="fa-solid fa-wind"></i>
-                    <div class="text">
-                        <span></span>
-                        <p>Wind Speed</p>
+                <div class="wind">
+                    <div class="col s6">
+                        <i class="fa-solid fa-wind"></i>
+                        <div class="text">
+                            <span></span>
+                            <p>Wind Speed</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -125,7 +127,9 @@
             <a id="tripAdvisorLink" class="guide-link" target="_blank">TripAdvisor Travel Guide</a>
         </div>            
         <br>
-        <div class="gcse-search" data-autosearchonload="true"></div>
+        <div id="gcse-search" style="display: none;">
+            <div class="gcse-search" data-autosearchonload="true"></div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>

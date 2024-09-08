@@ -353,6 +353,9 @@ $(document).ready(function() {
         if (currentCityData) {
             const cityName = currentCityData.city_ascii;
             const countryName = currentCountryData.country;
+
+            document.getElementById('weatherInfo').style.display = 'block';
+            document.getElementById('gcse-search').style.display = 'block';
     
             // Fetch the city information from Wikipedia API
             fetchCityInfoFromWikipedia(cityName);
@@ -407,24 +410,38 @@ $(document).ready(function() {
             if (!isNaN(targetLat) && !isNaN(targetLng)) {
                 // Show the street view div
                 document.getElementById('streetView').style.display = 'block';
-                
+    
                 // Define a position for the Street View
                 const cityLocation = { lat: targetLat, lng: targetLng };
+                // const cityLocation = { lat: -4.1333, lng: -38.8333 };
+
     
-                // Create a new Street View panorama
-                const panorama = new google.maps.StreetViewPanorama(
-                    document.getElementById('streetView'), {
-                        position: cityLocation,
-                        pov: {
-                            heading: 165,
-                            pitch: 0
-                        },
-                        zoom: 1
+                // Use the StreetViewService to check if there's Street View data for the location
+                const streetViewService = new google.maps.StreetViewService();
+                const radius = 2000; // Check within 50 meters
+    
+                streetViewService.getPanorama({ location: cityLocation, radius: radius }, function (data, status) {
+                    if (status === google.maps.StreetViewStatus.OK) {
+                        // If street view is available, create the panorama
+                        const panorama = new google.maps.StreetViewPanorama(
+                            document.getElementById('streetView'), {
+                                position: cityLocation,
+                                pov: {
+                                    heading: 165, // Adjust this if needed
+                                    pitch: 0       // Adjust this if needed
+                                },
+                                zoom: 1 // Adjust zoom level if necessary
+                            }
+                        );
+    
+                        // Link the panorama to the map
+                        map.setStreetView(panorama);
+                    } else {
+                        // If no Street View data is available, show a message or fallback behavior
+                        console.warn('No Street View data available for this location.');
+                        document.getElementById('streetView').innerHTML = `<p>No Street View available for this location.</p>`;
                     }
-                );
-    
-                // Link the panorama to the map
-                map.setStreetView(panorama);
+                });
             } else {
                 console.error("Invalid latitude or longitude for the city.");
             }
