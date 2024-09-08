@@ -365,10 +365,34 @@ $(document).ready(function() {
 
             // Display Street View
             displayCityStreetView();
+
+            // Display travel guide links
+            displayTravelGuideLinks(cityName, countryName);
+
     
             // Automatically fill the search bar with the city name and trigger the search
             setTimeout(() => triggerSearch(`${cityName} ${countryName} Attractions`), 1000);
         }
+    }
+
+    // Function to generate travel guide links
+    function displayTravelGuideLinks(cityName, countryName) {
+        const travelGuideLinks = document.getElementById('travelGuideLinks');
+        // const lonelyPlanetLink = document.getElementById('lonelyPlanetLink');
+        const tripAdvisorLink = document.getElementById('tripAdvisorLink');
+
+        // Generate Lonely Planet link
+        // const lonelyPlanetUrl = `https://www.lonelyplanet.com/search?places%5Bquery%5D=${encodeURIComponent(countryName)}`
+        // const lonelyPlanetUrl = `https://www.lonelyplanet.com/${encodeURIComponent(countryName)}`
+        // const lonelyPlanetUrl = `https://www.lonelyplanet.com/search?q=${encodeURIComponent(cityName)}+${encodeURIComponent(countryName)}`;
+        // lonelyPlanetLink.href = lonelyPlanetUrl;
+
+        // Generate TripAdvisor link
+        const tripAdvisorUrl = `https://www.tripadvisor.com/Search?q=${encodeURIComponent(cityName)}+${encodeURIComponent(countryName)}`;
+        tripAdvisorLink.href = tripAdvisorUrl;
+
+        // Show the travel guide links section
+        travelGuideLinks.style.display = 'block';
     }
 
     function displayCityStreetView() {

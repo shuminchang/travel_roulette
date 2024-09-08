@@ -76,3 +76,42 @@ button {
     margin-top: 20px;
     border: 1px solid #ddd;  /* Optional, for visual separation */
 }
+
+#travelGuideLinks {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.guide-link {
+    display: inline-block;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+    background-color: #0077b6; /* Default blue for TripAdvisor */
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#lonelyPlanetLink {
+    background-color: #2a9d8f; /* Green for Lonely Planet */
+}
+
+#tripAdvisorLink {
+    background-color: #d62828; /* Red for TripAdvisor */
+}
+
+.guide-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+.guide-link:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
